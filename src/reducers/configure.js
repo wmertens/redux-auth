@@ -1,33 +1,34 @@
-import Immutable from "immutable";
-import { createReducer } from "redux-immutablejs";
 import * as A from "../actions/configure";
 
-const initialState = Immutable.fromJS({
+const initialState = {
   loading: true,
   errors: null,
   config: null,
   endpointKeys: null,
   defaultEndpointKey: null,
   currentEndpointKey: null
-});
+};
 
-export default createReducer(initialState, {
-  [A.CONFIGURE_START]: state => state.set("loading", true),
+export default (state = initialState, {type, currentEndpointKey, endpointKeys, defaultEndpointKey, config, errors}) => {
+  switch (type) {
+    case A.CONFIGURE_START: return {...state, loading: true};
 
-  [A.STORE_CURRENT_ENDPOINT_KEY]: (state, {currentEndpointKey}) => state.merge({currentEndpointKey}),
+    case A.STORE_CURRENT_ENDPOINT_KEY: return {...state, currentEndpointKey};
 
-  [A.SET_ENDPOINT_KEYS]: (state, {endpointKeys, defaultEndpointKey, currentEndpointKey}) => state.merge({
-    endpointKeys, defaultEndpointKey, currentEndpointKey
-  }),
+    case A.SET_ENDPOINT_KEYS: return {...state, endpointKeys, defaultEndpointKey, currentEndpointKey};
 
-  [A.CONFIGURE_COMPLETE]: (state, {config}) => state.merge({
-    loading: false,
-    errors: null,
-    config
-  }),
+    case A.CONFIGURE_COMPLETE: return {
+      ...state,
+      loading: false,
+      errors: null,
+      config
+    };
 
-  [A.CONFIGURE_ERROR]: (state, {errors}) => state.merge({
-    loading: false,
-    errors
-  })
-});
+    case A.CONFIGURE_ERROR: return {
+      ...state,
+      loading: false,
+      errors
+    };
+  }
+  return state
+};

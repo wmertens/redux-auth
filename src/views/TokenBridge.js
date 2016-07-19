@@ -12,15 +12,15 @@ class TokenBridge extends React.Component {
 }
 
 export default connect(({auth}) => {
-  let headers = auth.getIn(["server", "headers"]);
+  let headers = auth.server.headers;
 
   return {
     initialCredentials: headers && JSON.stringify({
-      user: auth.getIn(["server", "user"]),
-      mustResetPassword: auth.getIn(["server", "mustResetPassword"]),
-      firstTimeLogin: auth.getIn(["server", "firstTimeLogin"]),
-      currentEndpointKey: auth.getIn(["configure", "currentEndpointKey"]),
-      defaultEndpointKey: auth.getIn(["configure", "defaultEndpointKey"]),
+      user: auth.server.user,
+      mustResetPassword: auth.server.mustResetPassword,
+      firstTimeLogin: auth.server.firstTimeLogin,
+      currentEndpointKey: auth.configure.currentEndpointKey,
+      defaultEndpointKey: auth.configure.defaultEndpointKey,
       headers
     })
   };

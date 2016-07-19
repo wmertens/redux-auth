@@ -11,7 +11,7 @@ class DestroyAccountSuccessModal extends React.Component {
         title="Destroy Account Success"
         containerClass="destroy-account-success-modal"
         closeAction={hideDestroyAccountSuccessModal}>
-        <p>{this.props.auth.getIn(["ui", "destroyAccountMessage"])}</p>
+        <p>{this.props.auth.ui.destroyAccountMessage}</p>
       </Modal>
     );
   }

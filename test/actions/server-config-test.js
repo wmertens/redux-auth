@@ -50,11 +50,11 @@ export default function() {
           cookies: "",
           currentLocation: "/"
         }).then(({store}) => {
-          let user = store.getState().auth.get("user");
+          let user = store.getState().auth.user;
 
           // user should not be signed in
-          expect(user.get("isSignedIn")).to.equal(false);
-          expect(user.get("attributes")).to.equal(undefined);
+          expect(user.isSignedIn).to.equal(false);
+          expect(user.attributes).to.equal(undefined);
 
           // ensure that no calls were made to the API
           expect(spy.notCalled).to.be.ok;
@@ -83,16 +83,16 @@ export default function() {
                 cookies: "",
                 currentLocation: authRedirectUrl
               }).then(({store}) => {
-                let user = store.getState().auth.get("user");
-                let server = store.getState().auth.get("server");
+                let user = store.getState().auth.user;
+                let server = store.getState().auth.server;
 
                 // user should not be signed in
-                expect(user.get("isSignedIn")).to.equal(false);
-                expect(user.get("attributes")).to.equal(undefined);
+                expect(user.isSignedIn).to.equal(false);
+                expect(user.attributes).to.equal(undefined);
 
                 // should still flag first time logins + password resets
-                expect(server.get("mustResetPassword")).to.equal(true);
-                expect(server.get("firstTimeLogin")).to.equal(true);
+                expect(server.mustResetPassword).to.equal(true);
+                expect(server.firstTimeLogin).to.equal(true);
 
                 // ensure that the call to the API was made
                 expect(spy.calledOnce).to.be.ok;
@@ -118,11 +118,11 @@ export default function() {
                 currentLocation: "/",
                 cookies: rawTestCookies
               }).then(({store}) => {
-                let user = store.getState().auth.get("user");
+                let user = store.getState().auth.user;
 
                 // user should not be signed in
-                expect(user.get("isSignedIn")).to.equal(false);
-                expect(user.get("attributes")).to.equal(undefined);
+                expect(user.isSignedIn).to.equal(false);
+                expect(user.attributes).to.equal(undefined);
 
                 // one call should have been made to API
                 expect(spy.calledOnce).to.be.ok;
@@ -198,15 +198,15 @@ export default function() {
             //expect(spy.called).to.be.ok;
 
             // user should be signed in
-            let user = store.getState().auth.get("user");
-            let server = store.getState().auth.get("server");
+            let user = store.getState().auth.user;
+            let server = store.getState().auth.server;
 
             console.log("user", user);
 
-            expect(user.get("isSignedIn")).to.equal(true);
-            expect(user.getIn(["attributes", "uid"])).to.equal(testUid);
-            expect(server.get("mustResetPassword")).to.equal(false);
-            expect(server.get("firstTimeLogin")).to.equal(true);
+            expect(user.isSignedIn).to.equal(true);
+            expect(user.attributes.uid).to.equal(testUid);
+            expect(server.mustResetPassword).to.equal(false);
+            expect(server.firstTimeLogin).to.equal(true);
             done();
           })
           .catch(err => console.log("error:", err.stack));
@@ -233,13 +233,13 @@ export default function() {
         })
         .then(({store}) => {
           // user should be signed in
-          let user = store.getState().auth.get("user");
-          let server = store.getState().auth.get("server");
+          let user = store.getState().auth.user;
+          let server = store.getState().auth.server;
           expect(spy.called).to.be.ok;
-          expect(user.get("isSignedIn")).to.equal(true);
-          expect(user.getIn(["attributes", "uid"])).to.equal(testUid);
-          expect(server.get("mustResetPassword")).to.equal(true);
-          expect(server.get("firstTimeLogin")).to.equal(false);
+          expect(user.isSignedIn).to.equal(true);
+          expect(user.attributes.uid).to.equal(testUid);
+          expect(server.mustResetPassword).to.equal(true);
+          expect(server.firstTimeLogin).to.equal(false);
           done();
         });
       });
@@ -265,11 +265,11 @@ export default function() {
         })
           .then(({history, routes, store}) => {
             // user should be signed in
-            let user = store.getState().auth.get("user");
-            expect(user.get("isSignedIn")).to.equal(true);
-            expect(user.getIn(["attributes", "uid"])).to.equal(testUid);
-            expect(user.get("mustResetPassword")).to.equal(false);
-            expect(user.get("firstTimeLogin")).to.equal(false);
+            let user = store.getState().auth.user;
+            expect(user.isSignedIn).to.equal(true);
+            expect(user.attributes.uid).to.equal(testUid);
+            expect(user.mustResetPassword).to.equal(false);
+            expect(user.firstTimeLogin).to.equal(false);
 
             // ensure that API call has credentials as defined in cookies
             expect(reqHeaders["access-token"]).to.include(testToken);

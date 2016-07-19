@@ -75,7 +75,7 @@ export default function() {
 
                 // ensure close button closes modal
                 TestUtils.Simulate.click(closeBtnEl);
-                expect(store.getState().auth.getIn(["ui", vizProp])).to.equal(false);
+                expect(store.getState().auth.ui.vizProp).to.equal(false);
 
                 done();
               }).catch(e => console.log("error:", e.stack));

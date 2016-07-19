@@ -178,8 +178,8 @@ export default function() {
               TestUtils.Simulate.change(passwordConfirmationEl);
 
               // ensure store is updated when inputs are changed
-              expect(store.getState().auth.getIn(["updatePasswordModal", "default", "form", "password"])).to.equal(testPassword);
-              expect(store.getState().auth.getIn(["updatePasswordModal", "default", "form", "password_confirmation"])).to.equal(testPassword);
+              expect(store.getState().auth.updatePasswordModal["default"].form.password).to.equal(testPassword);
+              expect(store.getState().auth.updatePasswordModal["default"].form.password_confirmation).to.equal(testPassword);
 
               // submit the form
               let submitEl = findButtonWithType("submit");
@@ -194,7 +194,7 @@ export default function() {
                 expect(authHeaders["access-token"]).to.equal(successRespHeaders["access-token"]);
 
                 // ensure success modal is present
-                let modalVisible = store.getState().auth.getIn(["ui", "updatePasswordSuccessModalVisible"]);
+                let modalVisible = store.getState().auth.ui.updatePasswordSuccessModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 done();
@@ -231,11 +231,11 @@ export default function() {
                 // ensure endpoint was hit
                 expect(errorRespSpy.called).to.be.ok;
 
-                let errors = store.getState().auth.getIn(["updatePasswordModal", "default", "errors"]).toJS();
+                let errors = store.getState().auth.updatePasswordModal["default"].errors;
                 expect(errors).to.deep.equal(errorResp["errors"]);
 
                 // ensure modal is to be shown
-                let modalVisible = store.getState().auth.getIn(["ui", "passwordResetSuccessModalVisible"]);
+                let modalVisible = store.getState().auth.ui.passwordResetSuccessModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 // ensure errors show up in form

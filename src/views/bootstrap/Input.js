@@ -1,6 +1,5 @@
 import React, { PropTypes } from "react";
 import { Input, Glyphicon } from "react-bootstrap";
-import Immutable from "immutable";
 
 class AuthInput extends React.Component {
   static propTypes = {
@@ -12,7 +11,7 @@ class AuthInput extends React.Component {
   static defaultProps = {
     label: "",
     value: null,
-    errors: Immutable.fromJS([])
+    errors: []
   };
 
   handleInput (ev) {
@@ -20,10 +19,11 @@ class AuthInput extends React.Component {
   }
 
   renderErrorList () {
-    if (this.props.errors.size) {
+    const {errors, label} = this.props;
+    if (errors.length) {
       return (
         <div className='auth-error-message has-error'>
-          {this.props.errors.map((err, i) => {
+          {errors.map((err, i) => {
             return (
               <p className="control-label inline-error-item"
                  style={{paddingLeft: "20px", position: "relative", marginBottom: "28px"}}
@@ -35,7 +35,7 @@ class AuthInput extends React.Component {
                              left: 0,
                              top: 2
                            }}
-                /> {this.props.label} {err}
+                /> {label} {err}
               </p>
             );
           })}
@@ -50,7 +50,7 @@ class AuthInput extends React.Component {
     return (
       <div>
         <Input {...this.props}
-               bsStyle={(this.props.errors.size) ? "error" : null}
+               bsStyle={(errors.size) ? "error" : null}
                onChange={this.handleInput.bind(this)} />
         {this.renderErrorList()}
       </div>

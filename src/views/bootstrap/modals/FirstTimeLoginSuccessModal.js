@@ -9,7 +9,7 @@ class FirstTimeLoginSuccessModal extends React.Component {
       <Modal
         show={this.props.show}
         containerClass="first-time-login-success-modal"
-        title={`Welcome ${this.props.auth.getIn(["user", "attributes", "email"])}!`}
+        title={`Welcome ${this.props.auth.user.attributes && this.props.auth.user.attributes.email}!`}
         closeBtnLabel="Close"
         closeAction={hideFirstTimeLoginSuccessModal}>
         <p>Your account has been confirmed.</p>

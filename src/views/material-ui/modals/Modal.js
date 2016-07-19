@@ -28,16 +28,17 @@ class BaseModal extends React.Component {
   getEndpoint () {
     return (
       this.props.endpoint ||
-      this.props.auth.getIn(["configure", "currentEndpointKey"]) ||
-      this.props.auth.getIn(["configure", "defaultEndpointKey"])
+      this.props.auth.configure.currentEndpointKey ||
+      this.props.auth.configure.defaultEndpointKey
     );
   }
 
   getErrorList () {
-    let [base, ...rest] = this.props.errorAddr;
-    return <ErrorList errors={this.props.auth.getIn([
-      base, this.getEndpoint(), ...rest
-    ])} />
+    const {auth, errorAddr} = this.props
+    let [base, ...rest] = errorAddr;
+    let errors = auth[base] && auth[base][this.getEndpoint()]
+    rest.forEach(l => errors = errors && errors[l])
+    return <ErrorList errors={errors} />
   }
 
   render () {

@@ -2,7 +2,6 @@ import React, {PropTypes} from "react";
 import * as Colors from "material-ui/styles/colors";
 import TextField from "material-ui/TextField";
 import AlertError from "material-ui/svg-icons/alert/error";
-import Immutable from "immutable";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class AuthInput extends React.Component {
@@ -15,7 +14,7 @@ class AuthInput extends React.Component {
   static defaultProps = {
     label: "",
     value: null,
-    errors: Immutable.fromJS([])
+    errors: []
   };
 
   handleInput (ev) {
@@ -24,7 +23,7 @@ class AuthInput extends React.Component {
   }
 
   renderErrorList () {
-    if (this.props.errors.size) {
+    if (this.props.errors.length) {
       return (
         <div className='auth-error-message'>
           {this.props.errors.map((err, i) => {

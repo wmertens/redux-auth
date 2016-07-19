@@ -115,7 +115,7 @@ export default function() {
               TestUtils.Simulate.change(emailEl);
 
               // ensure store is updated when inputs are changed
-              expect(store.getState().auth.getIn(["requestPasswordReset", "default", "form", "email"])).to.equal(testEmail);
+              expect(store.getState().auth.requestPasswordReset["default"].form.email).to.equal(testEmail);
 
               // submit the form
               let formEl = findClass(instance, "request-password-reset-form");
@@ -126,11 +126,11 @@ export default function() {
                 expect(successRespSpy.called).to.be.ok;
 
                 // ensure user was set
-                let sentMessage = store.getState().auth.getIn(["ui", "requestPasswordResetSuccessMessage"]);
+                let sentMessage = store.getState().auth.ui.requestPasswordResetSuccessMessage;
                 expect(sentMessage).to.equal(successResp["message"]);
 
                 // ensure success modal is present
-                let modalVisible = store.getState().auth.getIn(["ui", "requestPasswordResetSuccessModalVisible"]);
+                let modalVisible = store.getState().auth.ui.requestPasswordResetSuccessModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 done();
@@ -167,11 +167,11 @@ export default function() {
                 expect(errorRespSpy.called).to.be.ok;
 
                 // ensure errors are parsed
-                let errors = store.getState().auth.getIn(["requestPasswordReset", "default", "errors"]).toJS();
+                let errors = store.getState().auth.requestPasswordReset["default"].errors;
                 expect(errors).to.deep.equal(errorResp["errors"]);
 
                 // ensure modal is to be shown
-                let modalVisible = store.getState().auth.getIn(["ui", "requestPasswordResetErrorModalVisible"]);
+                let modalVisible = store.getState().auth.ui.requestPasswordResetErrorModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 done();

@@ -27,8 +27,8 @@ class RequestPasswordResetForm extends React.Component {
   getEndpoint () {
     return (
       this.props.endpoint ||
-      this.props.auth.getIn(["configure", "currentEndpointKey"]) ||
-      this.props.auth.getIn(["configure", "defaultEndpointKey"])
+      this.props.auth.configure.currentEndpointKey ||
+      this.props.auth.configure.defaultEndpointKey
     );
   }
 
@@ -38,14 +38,14 @@ class RequestPasswordResetForm extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault();
-    let formData = this.props.auth.getIn(["requestPasswordReset", this.getEndpoint(), "form"]).toJS();
+    let formData = this.props.auth.requestPasswordReset[this.getEndpoint()].form;
     this.props.dispatch(requestPasswordReset(formData, this.getEndpoint()));
   }
 
   render () {
-    let loading = this.props.auth.getIn(["requestPasswordReset", this.getEndpoint(), "loading"]);
-    let inputDisabled = this.props.auth.getIn(["user", "isSignedIn"]);
-    let submitDisabled = !this.props.auth.getIn(["requestPasswordReset", this.getEndpoint(), "form", "email"]);
+    let loading = this.props.auth.requestPasswordReset[this.getEndpoint()].loading;
+    let inputDisabled = this.props.auth.user.isSignedIn;
+    let submitDisabled = !this.props.auth.requestPasswordReset[this.getEndpoint()].form.email;
 
     return (
       <form
@@ -58,8 +58,8 @@ class RequestPasswordResetForm extends React.Component {
           groupClassName="request-password-reset-email"
           placeholder="Email Address"
           disabled={loading || inputDisabled}
-          value={this.props.auth.getIn(["requestPasswordReset", this.getEndpoint(), "form", "email"])}
-          errors={this.props.auth.getIn(["requestPasswordReset", this.getEndpoint(), "errors", "email"])}
+          value={this.props.auth.requestPasswordReset[this.getEndpoint()].form.email}
+          errors={this.props.auth.requestPasswordReset[this.getEndpoint()].errors.email}
           onChange={this.handleInput.bind(this, "email")}
           {...this.props.inputProps.email} />
 

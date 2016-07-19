@@ -7,7 +7,6 @@ import {createMemoryHistory} from "react-router";
 import {routerReducer, routerMiddleware} from "react-router-redux";
 import thunk from "redux-thunk";
 import { configure, authStateReducer } from "../src";
-import Immutable from "immutable";
 
 /* dummy components */
 import demoButtons from "../dummy/src/reducers/request-test-buttons";
@@ -49,7 +48,7 @@ export function initialize(
     // https://github.com/rackt/redux-router/pull/62
     // this will result in a bunch of warnings, but it's not a show stopper
     setTimeout(() => {
-      if (!store.getState().auth.getIn(["user", "isSignedIn"])) {
+      if (!store.getState().auth.user.isSignedIn) {
         transition({pathname: "/login"});
       }
       if (cb) cb();
@@ -104,7 +103,7 @@ export function genStore(initialState={}) {
   let reducer = combineReducers({auth: authStateReducer});
 
   // set initial state
-  let auth = Immutable.fromJS(initialState);
+  let auth = initialState;
 
   // create the redux store
   return compose(applyMiddleware(thunk))(createStore)(reducer, {auth});

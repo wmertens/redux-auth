@@ -1,6 +1,5 @@
 import React, { PropTypes } from "react";
 import { Glyphicon } from "react-bootstrap";
-import Immutable from "immutable";
 
 class ErrorList extends React.Component {
   static propTypes = {
@@ -8,11 +7,12 @@ class ErrorList extends React.Component {
   };
 
   static defaultProps = {
-    errors: Immutable.fromJS([])
+    errors: []
   };
 
   renderErrorList () {
-    let errorCount = (this.props.errors || Immutable.fromJS([])).size;
+    const {errors} = this.props
+    let errorCount = errors && errors.length || 0;
 
     if (errorCount > 0) {
       // pluralize message
@@ -22,7 +22,7 @@ class ErrorList extends React.Component {
       return (
         <div className="has-error">
           <p>Please correct the following {errorWord}:</p>
-          {this.props.errors.map((err, i) => {
+          {errors.map((err, i) => {
             return (
               <p
                 key={i}

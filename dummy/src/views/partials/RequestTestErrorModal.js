@@ -42,6 +42,6 @@ class RequestTestErrorModal extends React.Component {
 }
 
 export default connect(({demoButtons}) => ({
-  show: demoButtons.get("showErrorModal"),
-  url: demoButtons.get("lastRequestUrl")
+  show: demoButtons.showErrorModal,
+  url: demoButtons.lastRequestUrl
 }))(RequestTestErrorModal);

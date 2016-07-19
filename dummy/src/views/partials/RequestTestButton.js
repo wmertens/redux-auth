@@ -21,17 +21,18 @@ class RequestTestButton extends React.Component {
   }
 
   render () {
+    const {path, signedIn, currentEndpointKey, endpointKey} = this.props
     let text    = "Will Fail",
         bsStyle = "danger",
         glyph   = <Glyphicon glyph="remove" />,
-        loading = this.props.demoButtons.getIn(["buttons", this.props.path, "loading"]);
+        loading = this.props.demoButtons.buttons[path].loading;
 
-      if (
-        this.props.signedIn && (
-          this.props.currentEndpointKey === this.props.endpointKey ||
-          this.props.endpointKey === "any"
-        )
-      ) {
+    if (
+      signedIn && (
+        currentEndpointKey === endpointKey ||
+        endpointKey === "any"
+      )
+    ) {
       text    = "Should Succeed";
       bsStyle = "success";
       glyph   = <Glyphicon glyph="ok" />;
@@ -52,8 +53,8 @@ class RequestTestButton extends React.Component {
 
 export default connect(({auth, demoButtons}) => {
   return {
-    signedIn: auth.getIn(["user", "isSignedIn"]),
-    currentEndpointKey: auth.getIn(["configure", "currentEndpointKey"]),
+    signedIn: auth.user.isSignedIn,
+    currentEndpointKey: auth.configure.currentEndpointKey,
     demoButtons
   };
 })(RequestTestButton);

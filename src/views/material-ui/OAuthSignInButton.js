@@ -25,8 +25,8 @@ class OAuthSignInButton extends React.Component {
   getEndpoint () {
     return (
       this.props.endpoint ||
-      this.props.auth.getIn(["configure", "currentEndpointKey"]) ||
-      this.props.auth.getIn(["configure", "defaultEndpointKey"])
+      this.props.auth.configure.currentEndpointKey ||
+      this.props.auth.configure.defaultEndpointKey
     );
   }
 
@@ -41,10 +41,10 @@ class OAuthSignInButton extends React.Component {
   }
 
   render () {
-    let disabled = this.props.auth.getIn(["user", "isSignedIn"]);
+    let disabled = this.props.auth.user.isSignedIn;
     let loading = (
-      (this.props.auth.getIn(["ui", "oAuthSignInLoadingProvider"]) === this.props.provider) &&
-      this.props.auth.getIn(["oAuthSignIn", this.getEndpoint(), "loading"])
+      (this.props.auth.ui.oAuthSignInLoadingProvider === this.props.provider) &&
+      this.props.auth.oAuthSignIn[this.getEndpoint()].loading
     );
 
     return (

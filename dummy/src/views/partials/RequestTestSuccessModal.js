@@ -42,6 +42,6 @@ class RequestTestSuccessModal extends React.Component {
 }
 
 export default connect(({demoButtons}) => ({
-  show: demoButtons.get("showSuccessModal"),
-  url: demoButtons.get("lastRequestUrl")
+  show: demoButtons.showSuccessModal,
+  url: demoButtons.lastRequestUrl
 }))(RequestTestSuccessModal);

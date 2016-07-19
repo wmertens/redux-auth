@@ -76,7 +76,7 @@ export default function() {
                 expect(successRespSpy.called).to.be.ok;
 
                 // ensure current endpoint was restored to default
-                expect(store.getState().auth.getIn(["configure", "currentEndpointKey"])).to.equal("default");
+                expect(store.getState().auth.configure.currentEndpointKey).to.equal("default");
                 expect(getCurrentEndpointKey()).to.equal("default");
 
                 done();
@@ -108,11 +108,11 @@ export default function() {
                 expect(successRespSpy.called).to.be.ok;
 
                 // ensure success modal is present
-                let modalVisible = store.getState().auth.getIn(["ui", "destroyAccountSuccessModalVisible"]);
+                let modalVisible = store.getState().auth.ui.destroyAccountSuccessModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 // ensure user is signed out
-                expect(store.getState().auth.getIn(["user", "isSignedIn"])).to.equal(false);
+                expect(store.getState().auth.user.isSignedIn).to.equal(false);
 
                 done();
               }, 100);
@@ -144,11 +144,11 @@ export default function() {
               setTimeout(() => {
                 expect(errorRespSpy.called).to.be.ok;
 
-                let errors = store.getState().auth.getIn(["destroyAccount", "default", "errors"]).toJS();
+                let errors = store.getState().auth.destroyAccount["default"].errors;
                 expect(errors).to.deep.equal(errorResp["errors"]);
 
                 // ensure modal is to be shown
-                let modalVisible = store.getState().auth.getIn(["ui", "destroyAccountErrorModalVisible"]);
+                let modalVisible = store.getState().auth.ui.destroyAccountErrorModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 done();

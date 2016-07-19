@@ -13,7 +13,7 @@ class EmailSignUpSuccessModal extends React.Component {
         title="Sign Up Success">
         <p>
           A confirmation email was sent to your account
-          at {this.props.auth.getIn(["ui", "emailSignUpAddress"])}. Follow the
+          at {this.props.auth.ui.emailSignUpAddress}. Follow the
           instructions in the email to complete registration.
         </p>
       </Modal>

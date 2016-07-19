@@ -81,16 +81,16 @@ export default function() {
                 expect(authHeaders["access-token"]).to.equal(successRespHeaders["access-token"]);
 
                 // ensure default endpoint key was set to "default"
-                let defaultEndpoint = store.getState().auth.getIn(["configure", "defaultEndpointKey"]);
+                let defaultEndpoint = store.getState().auth.configure.defaultEndpointKey;
                 expect(defaultEndpoint).to.equal("default");
 
                 // ensure endpoint key was saved
-                let currentEndpoint = store.getState().auth.getIn(["configure", "currentEndpointKey"]);
+                let currentEndpoint = store.getState().auth.configure.currentEndpointKey;
                 expect(currentEndpoint).to.equal("alt");
                 expect(getCurrentEndpointKey()).to.equal("alt");
 
                 // ensure user was set
-                let uid = store.getState().auth.getIn(["user", "attributes", "uid"]);
+                let uid = store.getState().auth.user["attributes"].uid;
                 expect(uid).to.equal(testUid)
 
                 done();
@@ -129,8 +129,8 @@ export default function() {
               TestUtils.Simulate.change(passwordEl);
 
               // ensure store is updated when inputs are changed
-              expect(store.getState().auth.getIn(["emailSignIn", "default", "form", "email"])).to.equal(testEmail);
-              expect(store.getState().auth.getIn(["emailSignIn", "default", "form", "password"])).to.equal(testPassword);
+              expect(store.getState().auth.emailSignIn["default"].form.email).to.equal(testEmail);
+              expect(store.getState().auth.emailSignIn["default"].form.password).to.equal(testPassword);
 
               // submit the form
               let formEl = findClass(instance, "email-sign-in-form");
@@ -145,15 +145,15 @@ export default function() {
                 expect(authHeaders["access-token"]).to.equal(successRespHeaders["access-token"]);
 
                 // ensure user was set
-                let uid = store.getState().auth.getIn(["user", "attributes", "uid"]);
+                let uid = store.getState().auth.user["attributes"].uid;
                 expect(uid).to.equal(testUid)
 
                 // ensure success modal is present
-                let modalVisible = store.getState().auth.getIn(["ui", "emailSignInSuccessModalVisible"]);
+                let modalVisible = store.getState().auth.ui.emailSignInSuccessModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 // ensure configuration is set to default
-                expect(store.getState().auth.getIn(["configure", "currentEndpointKey"])).to.equal("default");
+                expect(store.getState().auth.configure.currentEndpointKey).to.equal("default");
                 expect(getCurrentEndpointKey()).to.equal("default");
 
                 // ensure `next` method was called
@@ -192,14 +192,14 @@ export default function() {
                 let authHeaders = retrieveData(C.SAVED_CREDS_KEY);
                 expect(authHeaders).to.equal(null);
 
-                let errors = store.getState().auth.getIn(["emailSignIn", "default", "errors"]).toJS();
+                let errors = store.getState().auth.emailSignIn["default"].errors;
                 expect(errors).to.deep.equal(errorResp);
 
                 // ensure user was not set
-                let user = store.getState().auth.getIn(["user", "attributes"]);
+                let user = store.getState().auth.user.attributes;
                 expect(user).to.equal(null)
 
-                let modalVisible = store.getState().auth.getIn(["ui", "emailSignInErrorModalVisible"]);
+                let modalVisible = store.getState().auth.ui.emailSignInErrorModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 // ensure `next` method was not called

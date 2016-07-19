@@ -103,10 +103,10 @@ export default function() {
                 expect(successRespSpy.called).to.be.ok;
 
                 // ensure success modal is present
-                let modalVisible = store.getState().auth.getIn(["ui", "signOutSuccessModalVisible"]);
+                let modalVisible = store.getState().auth.ui.signOutSuccessModalVisible;
                 expect(modalVisible).to.equal(true);
 
-                let isSignedIn = store.getState().auth.getIn(["user", "isSignedIn"]);
+                let isSignedIn = store.getState().auth.user.isSignedIn;
                 expect(isSignedIn).to.equal(false);
 
                 // ensure `next` method was called
@@ -144,14 +144,14 @@ export default function() {
               setTimeout(() => {
                 expect(errorRespSpy.called).to.be.ok;
 
-                let errors = store.getState().auth.getIn(["signOut", "default", "errors"]).toJS();
+                let errors = store.getState().auth.signOut["default"].errors;
                 expect(errors).to.deep.equal(errorResp["errors"]);
 
                 // ensure modal is to be shown
-                let modalVisible = store.getState().auth.getIn(["ui", "signOutErrorModalVisible"]);
+                let modalVisible = store.getState().auth.ui.signOutErrorModalVisible;
                 expect(modalVisible).to.equal(true);
 
-                let isSignedIn = store.getState().auth.getIn(["user", "isSignedIn"]);
+                let isSignedIn = store.getState().auth.user.isSignedIn;
                 expect(isSignedIn).to.equal(false);
 
                 let creds = retrieveData(C.SAVED_CREDS_KEY);

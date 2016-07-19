@@ -1,5 +1,4 @@
 import React, {PropTypes} from "react";
-import Immutable from "immutable";
 
 class AuthInput extends React.Component {
   static propTypes = {
@@ -11,7 +10,7 @@ class AuthInput extends React.Component {
   static defaultProps = {
     label: "",
     value: null,
-    errors: Immutable.fromJS([])
+    errors: []
   };
 
   handleInput (ev) {
@@ -19,10 +18,11 @@ class AuthInput extends React.Component {
   }
 
   renderErrorList () {
-    if (this.props.errors.size) {
+    const {errors, label, ...rest} = this.props
+    if (errors.length) {
       return (
         <div className='auth-error-message'>
-          {this.props.errors.map((err, i) => {
+          {errors.map((err, i) => {
             return (
               <p className="inline-error-item"
                  style={{paddingLeft: "20px", position: "relative", marginBottom: "28px"}}
@@ -31,7 +31,7 @@ class AuthInput extends React.Component {
                   position: "absolute",
                   left: 0,
                   top: 0}}>{"✗"}</i>
-                {this.props.label} {err}
+                {label} {err}
               </p>
             );
           })}
@@ -45,10 +45,10 @@ class AuthInput extends React.Component {
   render () {
     return (
       <div>
-        <label>{this.props.label}</label>
+        <label>{label}</label>
         <input
-          placeholder={this.props.label}
-          {...this.props}
+          placeholder={label}
+          {...rest}
           onChange={this.handleInput.bind(this)} />
         {this.renderErrorList()}
       </div>

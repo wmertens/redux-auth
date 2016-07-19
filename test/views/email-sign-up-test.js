@@ -146,9 +146,9 @@ export default function() {
               TestUtils.Simulate.change(passwordConfirmEl);
 
               // ensure store is updated when inputs are changed
-              expect(store.getState().auth.getIn(["emailSignUp", "default", "form", "email"])).to.equal(testEmail);
-              expect(store.getState().auth.getIn(["emailSignUp", "default", "form", "password"])).to.equal(testPassword);
-              expect(store.getState().auth.getIn(["emailSignUp", "default", "form", "password_confirmation"])).to.equal(testPassword);
+              expect(store.getState().auth.emailSignUp["default"].form.email).to.equal(testEmail);
+              expect(store.getState().auth.emailSignUp["default"].form.password).to.equal(testPassword);
+              expect(store.getState().auth.emailSignUp["default"].form.password_confirmation).to.equal(testPassword);
 
               // submit the form
               let formEl = findClass(instance, "email-sign-up-form");
@@ -156,11 +156,11 @@ export default function() {
 
               setTimeout(() => {
                 // ensure user was set
-                let sentAddress = store.getState().auth.getIn(["ui", "emailSignUpAddress"]);
+                let sentAddress = store.getState().auth.ui.emailSignUpAddress;
                 expect(sentAddress).to.equal(testEmail)
 
                 // ensure success modal is present
-                let modalVisible = store.getState().auth.getIn(["ui", "emailSignUpSuccessModalVisible"]);
+                let modalVisible = store.getState().auth.ui.emailSignUpSuccessModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 // ensure default url was used
@@ -200,15 +200,15 @@ export default function() {
                 let authHeaders = retrieveData(C.SAVED_CREDS_KEY);
                 expect(authHeaders).to.equal(null);
 
-                let errors = store.getState().auth.getIn(["emailSignUp", "default", "errors"]).toJS();
+                let errors = store.getState().auth.emailSignUp["default"].errors;
                 expect(errors).to.deep.equal(errorResp["errors"]);
 
                 // ensure user was not set
-                let user = store.getState().auth.getIn(["user", "attributes"]);
+                let user = store.getState().auth.user.attributes;
                 expect(user).to.equal(null)
 
                 // ensure modal is to be shown
-                let modalVisible = store.getState().auth.getIn(["ui", "emailSignUpErrorModalVisible"]);
+                let modalVisible = store.getState().auth.ui.emailSignUpErrorModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 // ensure errors show up in form
