@@ -12,7 +12,7 @@ class EmailSignInSuccessModal extends React.Component {
         closeAction={hideEmailSignInSuccessModal}
         closeBtnLabel="Close"
         title="Welcome Back">
-        <p>You are now signed in as {this.props.auth.getIn(["user", "attributes", "email"])}.</p>
+        <p>You are now signed in as {this.props.auth.user.attributes && this.props.auth.user.attributes.email}.</p>
       </Modal>
     );
   }

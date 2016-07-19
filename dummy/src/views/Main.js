@@ -241,12 +241,12 @@ class Main extends React.Component {
   }
 }
 
-export default connect(({auth, demoUi}) => {
+export default connect(({auth: {user: {attributes, endpointKey}}, demoUi}) => {
   return ({
-    currentUserUid: auth.getIn(["user", "attributes", "provider"]) || "none",
-    currentUserProvider: auth.getIn(["user", "attributes", "uid"]) || "none",
-    currentUserEndpoint: auth.getIn(["user", "endpointKey"]) || "none",
-    theme: demoUi.get("theme"),
-    pageEndpoint: demoUi.get("endpoint")
+    currentUserUid: attributes && attributes.provider || "none",
+    currentUserProvider: attributes && attributes.uid || "none",
+    currentUserEndpoint: endpointKey || "none",
+    theme: demoUi.theme,
+    pageEndpoint: demoUi.endpoint
   })
 })(Main);

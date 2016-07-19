@@ -1,5 +1,3 @@
-import Immutable from "immutable";
-import { createReducer } from "redux-immutablejs";
 import * as uiActions from "../actions/ui";
 import * as emailSignInActions from "../actions/email-sign-in";
 import * as emailSignUpActions from "../actions/email-sign-up";
@@ -11,7 +9,7 @@ import * as destroyAccountActions from "../actions/destroy-account";
 import * as updatePasswordModalActions from "../actions/update-password-modal";
 import * as serverActions from "../actions/server";
 
-const initialState = Immutable.fromJS({
+const initialState = {
   emailSignInSuccessModalVisible:          false,
   emailSignInErrorModalVisible:            false,
   oAuthSignInSuccessModalVisible:          false,
@@ -33,182 +31,224 @@ const initialState = Immutable.fromJS({
   destroyAccountMessage:                   null,
   passwordResetSuccessModalVisible:        false,
   passwordResetErrorModalVisible:          false
-});
+};
 
-export default createReducer(initialState, {
-  [emailSignInActions.EMAIL_SIGN_IN_COMPLETE]: state => state.set(
-    "emailSignInSuccessModalVisible", true
-  ),
+export default (state = initialState, {type, provider, user, message, mustResetPassword, firstTimeLogin}) => {
+  switch (type) {
+	  case emailSignInActions.EMAIL_SIGN_IN_COMPLETE: return {
+      ...state,
+      emailSignInSuccessModalVisible: true
+    };
 
-  [emailSignInActions.EMAIL_SIGN_IN_ERROR]: state => state.set(
-    "emailSignInErrorModalVisible", true
-  ),
+	  case emailSignInActions.EMAIL_SIGN_IN_ERROR: return {
+      ...state,
+      emailSignInErrorModalVisible: true
+    };
 
-  [oAuthSignInActions.OAUTH_SIGN_IN_COMPLETE]: state => state.merge({
-    oAuthSignInSuccessModalVisible: true,
-    oAuthSignInLoadingProvider: null
-  }),
+	  case oAuthSignInActions.OAUTH_SIGN_IN_COMPLETE: return {
+      ...state,
+      oAuthSignInSuccessModalVisible: true,
+      oAuthSignInLoadingProvider: null
+    };
 
-  [oAuthSignInActions.OAUTH_SIGN_IN_ERROR]: state => state.merge({
-    oAuthSignInErrorModalVisible: true,
-    oAuthSignInLoadingProvider: null
-  }),
+	  case oAuthSignInActions.OAUTH_SIGN_IN_ERROR: return {
+      ...state,
+      oAuthSignInErrorModalVisible: true,
+      oAuthSignInLoadingProvider: null
+    };
 
-  [oAuthSignInActions.OAUTH_SIGN_IN_START]: (state, { provider }) => state.merge({
-    oAuthSignInLoadingProvider: provider
-  }),
+	  case oAuthSignInActions.OAUTH_SIGN_IN_START: return {
+      ...state,
+      oAuthSignInLoadingProvider: provider
+    };
 
-  [uiActions.HIDE_EMAIL_SIGN_IN_SUCCESS_MODAL]: state => state.set(
-    "emailSignInSuccessModalVisible", false
-  ),
+	  case uiActions.HIDE_EMAIL_SIGN_IN_SUCCESS_MODAL: return {
+      ...state,
+      emailSignInSuccessModalVisible: false
+    };
 
-  [uiActions.HIDE_EMAIL_SIGN_IN_ERROR_MODAL]: state => state.set(
-    "emailSignInErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_EMAIL_SIGN_IN_ERROR_MODAL: return {
+      ...state,
+      emailSignInErrorModalVisible: false
+    };
 
-  [signOutActions.SIGN_OUT_COMPLETE]: state => state.set(
-    "signOutSuccessModalVisible", true
-  ),
+	  case signOutActions.SIGN_OUT_COMPLETE: return {
+      ...state,
+      signOutSuccessModalVisible: true
+    };
 
-  [signOutActions.SIGN_OUT_ERROR]: state => state.set(
-    "signOutErrorModalVisible", true
-  ),
+	  case signOutActions.SIGN_OUT_ERROR: return {
+      ...state,
+      signOutErrorModalVisible: true
+    };
 
-  [uiActions.HIDE_SIGN_OUT_SUCCESS_MODAL]: state => state.set(
-    "signOutSuccessModalVisible", false
-  ),
+	  case uiActions.HIDE_SIGN_OUT_SUCCESS_MODAL: return {
+      ...state,
+      signOutSuccessModalVisible: false
+    };
 
-  [uiActions.HIDE_SIGN_OUT_ERROR_MODAL]: state => state.set(
-    "signOutErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_SIGN_OUT_ERROR_MODAL: return {
+      ...state,
+      signOutErrorModalVisible: false
+    };
 
-  [emailSignUpActions.EMAIL_SIGN_UP_COMPLETE]: (state, {user}) => state.merge({
-    emailSignUpSuccessModalVisible: true,
-    emailSignUpAddress: user.email
-  }),
+	  case emailSignUpActions.EMAIL_SIGN_UP_COMPLETE: return {
+      ...state,
+      emailSignUpSuccessModalVisible: true,
+      emailSignUpAddress: user.email
+    };
 
-  [emailSignUpActions.EMAIL_SIGN_UP_ERROR]: state => state.set(
-    "emailSignUpErrorModalVisible", true
-  ),
+	  case emailSignUpActions.EMAIL_SIGN_UP_ERROR: return {
+      ...state,
+      emailSignUpErrorModalVisible: true
+    };
 
-  [uiActions.HIDE_EMAIL_SIGN_UP_SUCCESS_MODAL]: state => state.merge({
-    emailSignUpSuccessModalVisible: false,
-    emailSignUpAddress: null
-  }),
+	  case uiActions.HIDE_EMAIL_SIGN_UP_SUCCESS_MODAL: return {
+      ...state,
+      emailSignUpSuccessModalVisible: false,
+      emailSignUpAddress: null
+    };
 
-  [uiActions.HIDE_EMAIL_SIGN_UP_ERROR_MODAL]: state => state.set(
-    "emailSignUpErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_EMAIL_SIGN_UP_ERROR_MODAL: return {
+      ...state,
+      emailSignUpErrorModalVisible: false
+    };
 
-  [uiActions.SHOW_FIRST_TIME_LOGIN_SUCCESS_MODAL]: state => state.set(
-    "firstTimeLoginSuccessModalVisible", true
-  ),
+	  case uiActions.SHOW_FIRST_TIME_LOGIN_SUCCESS_MODAL: return {
+      ...state,
+      firstTimeLoginSuccessModalVisible: true
+    };
 
-  [uiActions.HIDE_FIRST_TIME_LOGIN_SUCCESS_MODAL]: state => state.set(
-    "firstTimeLoginSuccessModalVisible", false
-  ),
+	  case uiActions.HIDE_FIRST_TIME_LOGIN_SUCCESS_MODAL: return {
+      ...state,
+      firstTimeLoginSuccessModalVisible: false
+    };
 
-  [uiActions.HIDE_PASSWORD_RESET_SUCCESS_MODAL]: state => state.set(
-    "passwordResetSuccessModalVisible", false
-  ),
+	  case uiActions.HIDE_PASSWORD_RESET_SUCCESS_MODAL: return {
+      ...state,
+      passwordResetSuccessModalVisible: false
+    };
 
-  [uiActions.SHOW_PASSWORD_RESET_SUCCESS_MODAL]: state => state.set(
-    "passwordResetSuccessModalVisible", true
-  ),
+	  case uiActions.SHOW_PASSWORD_RESET_SUCCESS_MODAL: return {
+      ...state,
+      passwordResetSuccessModalVisible: true
+    };
 
-  [uiActions.SHOW_FIRST_TIME_LOGIN_ERROR_MODAL]: state => state.set(
-    "firstTimeLoginErrorModalVisible", true
-  ),
+	  case uiActions.SHOW_FIRST_TIME_LOGIN_ERROR_MODAL: return {
+      ...state,
+      firstTimeLoginErrorModalVisible: true
+    };
 
-  [uiActions.HIDE_FIRST_TIME_LOGIN_ERROR_MODAL]: state => state.set(
-    "firstTimeLoginErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_FIRST_TIME_LOGIN_ERROR_MODAL: return {
+      ...state,
+      firstTimeLoginErrorModalVisible: false
+    };
 
-  [uiActions.HIDE_PASSWORD_RESET_ERROR_MODAL]: state => state.set(
-    "passwordResetErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_PASSWORD_RESET_ERROR_MODAL: return {
+      ...state,
+      passwordResetErrorModalVisible: false
+    };
 
-  [uiActions.SHOW_PASSWORD_RESET_ERROR_MODAL]: state => state.set(
-    "passwordResetErrorModalVisible", true
-  ),
+	  case uiActions.SHOW_PASSWORD_RESET_ERROR_MODAL: return {
+      ...state,
+      passwordResetErrorModalVisible: true
+    };
 
-  [requestPasswordResetActions.REQUEST_PASSWORD_RESET_COMPLETE]: (state, {message}) => {
-    return state.merge({
+	  case requestPasswordResetActions.REQUEST_PASSWORD_RESET_COMPLETE: return {
+      ...state,
       requestPasswordResetSuccessModalVisible: true,
       requestPasswordResetSuccessMessage: message
-    });
-  },
+    };
 
-  [requestPasswordResetActions.REQUEST_PASSWORD_RESET_ERROR]: state => state.set(
-    "requestPasswordResetErrorModalVisible", true
-  ),
+	  case requestPasswordResetActions.REQUEST_PASSWORD_RESET_ERROR: return {
+      ...state,
+      requestPasswordResetErrorModalVisible: true
+    };
 
-  [uiActions.HIDE_REQUEST_PASSWORD_RESET_SUCCESS_MODAL]: state => state.merge({
-    requestPasswordResetSuccessModalVisible: false,
-    requestPasswordResetSuccessMessage: null
-  }),
+	  case uiActions.HIDE_REQUEST_PASSWORD_RESET_SUCCESS_MODAL: return {
+      ...state,
+      requestPasswordResetSuccessModalVisible: false,
+      requestPasswordResetSuccessMessage: null
+    };
 
-  [uiActions.HIDE_REQUEST_PASSWORD_RESET_ERROR_MODAL]: state => state.set(
-    "requestPasswordResetErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_REQUEST_PASSWORD_RESET_ERROR_MODAL: return {
+      ...state,
+      requestPasswordResetErrorModalVisible: false
+    };
 
-  [uiActions.HIDE_OAUTH_SIGN_IN_SUCCESS_MODAL]: state => state.set(
-    "oAuthSignInSuccessModalVisible", false
-  ),
+	  case uiActions.HIDE_OAUTH_SIGN_IN_SUCCESS_MODAL: return {
+      ...state,
+      oAuthSignInSuccessModalVisible: false
+    };
 
-  [uiActions.HIDE_OAUTH_SIGN_IN_ERROR_MODAL]: state => state.set(
-    "oAuthSignInErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_OAUTH_SIGN_IN_ERROR_MODAL: return {
+      ...state,
+      oAuthSignInErrorModalVisible: false
+    };
 
-  [updatePasswordActions.UPDATE_PASSWORD_COMPLETE]: state => state.set(
-    "updatePasswordSuccessModalVisible", true
-  ),
+	  case updatePasswordActions.UPDATE_PASSWORD_COMPLETE: return {
+      ...state,
+      updatePasswordSuccessModalVisible: true
+    };
 
-  [updatePasswordActions.UPDATE_PASSWORD_ERROR]: state => state.set(
-    "updatePasswordErrorModalVisible", true
-  ),
+	  case updatePasswordActions.UPDATE_PASSWORD_ERROR: return {
+      ...state,
+      updatePasswordErrorModalVisible: true
+    };
 
-  [uiActions.HIDE_UPDATE_PASSWORD_SUCCESS_MODAL]: state => state.set(
-    "updatePasswordSuccessModalVisible", false
-  ),
+	  case uiActions.HIDE_UPDATE_PASSWORD_SUCCESS_MODAL: return {
+      ...state,
+      updatePasswordSuccessModalVisible: false
+    };
 
-  [uiActions.HIDE_UPDATE_PASSWORD_ERROR_MODAL]: state => state.set(
-    "updatePasswordErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_UPDATE_PASSWORD_ERROR_MODAL: return {
+      ...state,
+      updatePasswordErrorModalVisible: false
+    };
 
-  [destroyAccountActions.DESTROY_ACCOUNT_COMPLETE]: (state, { message }) => state.merge({
-    destroyAccountSuccessModalVisible: true,
-    destroyAccountMessage: message
-  }),
+	  case destroyAccountActions.DESTROY_ACCOUNT_COMPLETE: return {
+      ...state,
+      destroyAccountSuccessModalVisible: true,
+      destroyAccountMessage: message
+    };
 
-  [destroyAccountActions.DESTROY_ACCOUNT_ERROR]: state => state.set(
-    "destroyAccountErrorModalVisible", true
-  ),
+	  case destroyAccountActions.DESTROY_ACCOUNT_ERROR: return {
+      ...state,
+      destroyAccountErrorModalVisible: true
+    };
 
-  [uiActions.HIDE_DESTROY_ACCOUNT_SUCCESS_MODAL]: state => state.merge({
-    destroyAccountSuccessModalVisible: false,
-    destroyAccountMessage: null
-  }),
+	  case uiActions.HIDE_DESTROY_ACCOUNT_SUCCESS_MODAL: return {
+      ...state,
+      destroyAccountSuccessModalVisible: false,
+      destroyAccountMessage: null
+    };
 
-  [uiActions.HIDE_DESTROY_ACCOUNT_ERROR_MODAL]: state => state.set(
-    "destroyAccountErrorModalVisible", false
-  ),
+	  case uiActions.HIDE_DESTROY_ACCOUNT_ERROR_MODAL: return {
+      ...state,
+      destroyAccountErrorModalVisible: false
+    };
 
-  [serverActions.SS_AUTH_TOKEN_UPDATE]: (state, {mustResetPassword, firstTimeLogin}) => state.merge({
-    passwordResetSuccessModalVisible: mustResetPassword,
-    firstTimeLoginSuccessModalVisible: firstTimeLogin
-  }),
+	  case serverActions.SS_AUTH_TOKEN_UPDATE: return {
+      ...state,
+      passwordResetSuccessModalVisible: mustResetPassword,
+      firstTimeLoginSuccessModalVisible: firstTimeLogin
+    };
 
-  [uiActions.HIDE_PASSWORD_RESET_SUCCESS_MODAL]: state => state.set(
-    "passwordResetSuccessModalVisible", false
-  ),
+	  case uiActions.HIDE_PASSWORD_RESET_SUCCESS_MODAL: return {
+      ...state,
+      passwordResetSuccessModalVisible: false
+    };
 
-  [uiActions.HIDE_PASSWORD_RESET_ERROR_MODAL]: state => state.set(
-    "passwordResetSuccessModalVisible", false
-  ),
+	  case uiActions.HIDE_PASSWORD_RESET_ERROR_MODAL: return {
+      ...state,
+      passwordResetSuccessModalVisible: false
+    };
 
-  [updatePasswordModalActions.UPDATE_PASSWORD_MODAL_COMPLETE]: state => state.merge({
-    passwordResetSuccessModalVisible: false,
-    updatePasswordSuccessModalVisible: true
-  })
-});
+	  case updatePasswordModalActions.UPDATE_PASSWORD_MODAL_COMPLETE: return {
+      ...state,
+      passwordResetSuccessModalVisible: false,
+      updatePasswordSuccessModalVisible: true
+    };
+  }
+  return state;
+};

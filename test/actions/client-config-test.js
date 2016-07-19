@@ -46,9 +46,9 @@ export default function() {
       it("should handle unauthenticated users", done => {
         initialize()
           .then(({store}) => {
-            let user = store.getState().auth.get("user");
-            expect(user.get("isSignedIn")).to.equal(false);
-            expect(user.get("attributes")).to.equal(null);
+            let user = store.getState().auth.user;
+            expect(user.isSignedIn).to.equal(false);
+            expect(user.attributes).to.equal(null);
             done();
           })
           .catch(e => console.log("caught error:", e));
@@ -79,11 +79,11 @@ export default function() {
 
         initialize()
           .then(({store}) => {
-            let user = store.getState().auth.get("user");
-            let ui = store.getState().auth.get("ui");
-            expect(user.get("isSignedIn")).to.equal(false);
-            expect(user.get("attributes")).to.equal(undefined);
-            expect(ui.get("firstTimeLoginErrorModalVisible")).to.equal(true);
+            let user = store.getState().auth.user;
+            let ui = store.getState().auth.ui;
+            expect(user.isSignedIn).to.equal(false);
+            expect(user.attributes).to.equal(undefined);
+            expect(ui.firstTimeLoginErrorModalVisible).to.equal(true);
             destroyTokenBridge();
             done();
           }).catch(e => console.log("error:", e.stack));
@@ -98,11 +98,11 @@ export default function() {
 
         initialize()
           .then(({store}) => {
-            let user = store.getState().auth.get("user");
-            let ui = store.getState().auth.get("ui");
-            expect(user.get("isSignedIn")).to.equal(false);
-            expect(user.get("attributes")).to.equal(undefined);
-            expect(ui.get("passwordResetErrorModalVisible")).to.equal(true);
+            let user = store.getState().auth.user;
+            let ui = store.getState().auth.ui;
+            expect(user.isSignedIn).to.equal(false);
+            expect(user.attributes).to.equal(undefined);
+            expect(ui.passwordResetErrorModalVisible).to.equal(true);
             destroyTokenBridge();
             done();
           }).catch(e => console.log("error:", e.stack));
@@ -151,12 +151,12 @@ export default function() {
           {alt: {apiUrl: altApiUrl}}
         ])
           .then(({store}) => {
-            let user = store.getState().auth.get("user");
-            expect(user.get("isSignedIn")).to.equal(true);
-            expect(store.getState().auth.getIn(["configure", "currentEndpointKey"])).to.equal("alt");
+            let user = store.getState().auth.user;
+            expect(user.isSignedIn).to.equal(true);
+            expect(store.getState().auth.configure.currentEndpointKey).to.equal("alt");
             expect(getCurrentEndpointKey()).to.equal("alt");
-            expect(store.getState().auth.getIn(["configure", "defaultEndpointKey"])).to.equal("default");
-            expect(user.getIn(["attributes", "uid"])).to.equal("test@test.com");
+            expect(store.getState().auth.configure.defaultEndpointKey).to.equal("default");
+            expect(user.attributes.uid).to.equal("test@test.com");
 
             // next request should include auth headers
             fetch(`${altApiUrl}/api/hello`).then(() => {
@@ -183,15 +183,15 @@ export default function() {
 
               initialize()
                 .then(({store}) => {
-                  let user = store.getState().auth.get("user");
-                  let config = store.getState().auth.get("configure");
-                  let ui = store.getState().auth.get("ui");
-                  expect(user.get("isSignedIn")).to.equal(true);
-                  expect(config.get("currentEndpointKey")).to.equal(endpoint);
-                  expect(config.get("defaultEndpointKey")).to.equal("default");
+                  let user = store.getState().auth.user;
+                  let config = store.getState().auth.configure;
+                  let ui = store.getState().auth.ui;
+                  expect(user.isSignedIn).to.equal(true);
+                  expect(config.currentEndpointKey).to.equal(endpoint);
+                  expect(config.defaultEndpointKey).to.equal("default");
                   expect(getCurrentEndpointKey()).to.equal(endpoint);
-                  expect(user.getIn(["attributes", "uid"])).to.equal("test@test.com");
-                  expect(ui.get("firstTimeLoginSuccessModalVisible")).to.equal(true);
+                  expect(user.attributes.uid).to.equal("test@test.com");
+                  expect(ui.firstTimeLoginSuccessModalVisible).to.equal(true);
                   done();
                 }).catch(e => console.log("error:", e.stack));
             });
@@ -207,15 +207,15 @@ export default function() {
 
               initialize()
                 .then(({store}) => {
-                  let user = store.getState().auth.get("user");
-                  let ui = store.getState().auth.get("ui");
-                  let config = store.getState().auth.get("configure");
-                  expect(config.get("currentEndpointKey")).to.equal(endpoint);
-                  expect(config.get("defaultEndpointKey")).to.equal("default");
+                  let user = store.getState().auth.user;
+                  let ui = store.getState().auth.ui;
+                  let config = store.getState().auth.configure;
+                  expect(config.currentEndpointKey).to.equal(endpoint);
+                  expect(config.defaultEndpointKey).to.equal("default");
                   expect(getCurrentEndpointKey()).to.equal(endpoint);
-                  expect(user.get("isSignedIn")).to.equal(true);
-                  expect(user.getIn(["attributes", "uid"])).to.equal("test@test.com");
-                  expect(ui.get("passwordResetSuccessModalVisible")).to.equal(true);
+                  expect(user.isSignedIn).to.equal(true);
+                  expect(user.attributes.uid).to.equal("test@test.com");
+                  expect(ui.passwordResetSuccessModalVisible).to.equal(true);
                   done();
                 }).catch(e => console.log("error:", e.stack));
             });

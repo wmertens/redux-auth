@@ -26,8 +26,8 @@ class UpdatePasswordForm extends React.Component {
   getEndpoint () {
     return (
       this.props.endpoint ||
-      this.props.auth.getIn(["configure", "currentEndpointKey"]) ||
-      this.props.auth.getIn(["configure", "defaultEndpointKey"])
+      this.props.auth.configure.currentEndpointKey ||
+      this.props.auth.configure.defaultEndpointKey
     );
   }
 
@@ -37,16 +37,16 @@ class UpdatePasswordForm extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault();
-    let formData = this.props.auth.getIn(["updatePassword", this.getEndpoint(), "form"]).toJS();
+    let formData = this.props.auth.updatePassword[this.getEndpoint()].form;
     this.props.dispatch(updatePassword(formData, this.getEndpoint()));
   }
 
   render () {
     let endpoint = this.getEndpoint();
-    let loading = this.props.auth.getIn(["updatePassword", "loading"]);
+    let loading = this.props.auth.updatePassword.loading;
     let disabled = (
-      !this.props.auth.getIn(["user", "isSignedIn"]) || loading ||
-      (this.props.auth.getIn(["user", "attributes", "provider"]) !== "email")
+      !this.props.auth.user.isSignedIn || loading ||
+      (this.props.auth.user.attributes && this.props.auth.user.attributes.provider !== "email")
     );
 
     return (
@@ -59,8 +59,8 @@ class UpdatePasswordForm extends React.Component {
           placeholder="Password"
           disabled={disabled}
           className="update-password-password"
-          value={this.props.auth.getIn(["updatePassword", endpoint, "form", "password"])}
-          errors={this.props.auth.getIn(["updatePassword", endpoint, "errors", "password"])}
+          value={this.props.auth.updatePassword[endpoint].form.password}
+          errors={this.props.auth.updatePassword[endpoint].errors.password}
           onChange={this.handleInput.bind(this, "password")}
           {...this.props.inputProps.password} />
 
@@ -70,8 +70,8 @@ class UpdatePasswordForm extends React.Component {
           placeholder="Password Confirmation"
           className="update-password-password-confirmation"
           disabled={disabled}
-          value={this.props.auth.getIn(["updatePassword", endpoint, "form", "password_confirmation"])}
-          errors={this.props.auth.getIn(["updatePassword", endpoint, "errors", "password_confirmation"])}
+          value={this.props.auth.updatePassword[endpoint].form.password_confirmation}
+          errors={this.props.auth.updatePassword[endpoint].errors.password_confirmation}
           onChange={this.handleInput.bind(this, "password_confirmation")}
           {...this.props.inputProps.passwordConfirmation} />
 

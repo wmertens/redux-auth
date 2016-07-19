@@ -18,8 +18,8 @@ class SignOutButton extends React.Component {
   getEndpoint () {
     return (
       this.props.endpoint ||
-      this.props.auth.getIn(["configure", "currentEndpointKey"]) ||
-      this.props.auth.getIn(["configure", "defaultEndpointKey"])
+      this.props.auth.configure.currentEndpointKey ||
+      this.props.auth.configure.defaultEndpointKey
     );
   }
 
@@ -28,10 +28,10 @@ class SignOutButton extends React.Component {
   }
 
   render () {
-    let disabled = !this.props.auth.getIn(["user", "isSignedIn"]);
+    let disabled = !this.props.auth.user.isSignedIn;
     return (
       <ButtonLoader
-        loading={this.props.auth.getIn(["signOut", this.getEndpoint(), "loading"])}
+        loading={this.props.auth.signOut[this.getEndpoint()].loading}
         icon={this.props.icon}
         disabled={disabled}
         className="sign-out-submit"

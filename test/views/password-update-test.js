@@ -150,8 +150,8 @@ export default function() {
               TestUtils.Simulate.change(passwordConfirmationEl);
 
               // ensure store is updated when inputs are changed
-              expect(store.getState().auth.getIn(["updatePassword", "default", "form", "password"])).to.equal(testPassword);
-              expect(store.getState().auth.getIn(["updatePassword", "default", "form", "password_confirmation"])).to.equal(testPassword);
+              expect(store.getState().auth.updatePassword["default"].form.password).to.equal(testPassword);
+              expect(store.getState().auth.updatePassword["default"].form.password_confirmation).to.equal(testPassword);
 
               // submit the form
               let formEl = findClass(instance, "update-password-form");
@@ -163,7 +163,7 @@ export default function() {
                 expect(authHeaders["access-token"]).to.equal(successRespHeaders["access-token"]);
 
                 // ensure success modal is present
-                let modalVisible = store.getState().auth.getIn(["ui", "updatePasswordSuccessModalVisible"]);
+                let modalVisible = store.getState().auth.ui.updatePasswordSuccessModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 // ensure default url was used
@@ -201,11 +201,11 @@ export default function() {
                 // ensure endpoint was hit
                 expect(errorRespSpy.called).to.be.ok;
 
-                let errors = store.getState().auth.getIn(["updatePassword", "default", "errors"]).toJS();
+                let errors = store.getState().auth.updatePassword["default"].errors;
                 expect(errors).to.deep.equal(errorResp["errors"]);
 
                 // ensure modal is to be shown
-                let modalVisible = store.getState().auth.getIn(["ui", "updatePasswordErrorModalVisible"]);
+                let modalVisible = store.getState().auth.ui.updatePasswordErrorModalVisible;
                 expect(modalVisible).to.equal(true);
 
                 // ensure errors show up in form

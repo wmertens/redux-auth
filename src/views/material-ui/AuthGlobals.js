@@ -65,92 +65,92 @@ class AuthGlobals extends React.Component {
   render () {
     let showEmailSignInSuccess = (
       this.props.emailSignInSuccessEnabled &&
-      this.props.auth.getIn(["ui", "emailSignInSuccessModalVisible"])
+      this.props.auth.ui.emailSignInSuccessModalVisible
     );
 
     let showEmailSignInError = (
       this.props.emailSignInErrorEnabled &&
-      this.props.auth.getIn(["ui", "emailSignInErrorModalVisible"])
+      this.props.auth.ui.emailSignInErrorModalVisible
     );
 
     let showEmailSignUpSuccess = (
       this.props.emailSignUpSuccessEnabled &&
-      this.props.auth.getIn(["ui", "emailSignUpSuccessModalVisible"])
+      this.props.auth.ui.emailSignUpSuccessModalVisible
     );
 
     let showEmailSignUpError = (
       this.props.emailSignUpErrorEnabled &&
-      this.props.auth.getIn(["ui", "emailSignUpErrorModalVisible"])
+      this.props.auth.ui.emailSignUpErrorModalVisible
     );
 
     let showSignOutSuccess = (
       this.props.signOutSuccessEnabled &&
-      this.props.auth.getIn(["ui", "signOutSuccessModalVisible"])
+      this.props.auth.ui.signOutSuccessModalVisible
     );
 
     let showSignOutError = (
       this.props.signOutErrorEnabled &&
-      this.props.auth.getIn(["ui", "signOutErrorModalVisible"])
+      this.props.auth.ui.signOutErrorModalVisible
     );
 
     let showFirstTimeLoginSuccess = (
       this.props.firstTimeLoginSuccessEnabled &&
-      this.props.auth.getIn(["ui", "firstTimeLoginSuccessModalVisible"])
+      this.props.auth.ui.firstTimeLoginSuccessModalVisible
     );
 
     let showFirstTimeLoginError = (
       this.props.firstTimeLoginErrorEnabled &&
-      this.props.auth.getIn(["ui", "firstTimeLoginErrorModalVisible"])
+      this.props.auth.ui.firstTimeLoginErrorModalVisible
     );
 
     let showRequestPasswordResetError = (
       this.props.requestPasswordResetErrorEnabled &&
-      this.props.auth.getIn(["ui", "requestPasswordResetErrorModalVisible"])
+      this.props.auth.ui.requestPasswordResetErrorModalVisible
     );
 
     let showRequestPasswordResetSuccess = (
       this.props.requestPasswordResetSuccessEnabled &&
-      this.props.auth.getIn(["ui", "requestPasswordResetSuccessModalVisible"])
+      this.props.auth.ui.requestPasswordResetSuccessModalVisible
     );
 
     let showOAuthSignInSuccess = (
       this.props.oAuthSignInSuccessEnabled &&
-      this.props.auth.getIn(["ui", "oAuthSignInSuccessModalVisible"])
+      this.props.auth.ui.oAuthSignInSuccessModalVisible
     );
 
     let showOAuthSignInError = (
       this.props.oAuthSignInErrorEnabled &&
-      this.props.auth.getIn(["ui", "oAuthSignInErrorModalVisible"])
+      this.props.auth.ui.oAuthSignInErrorModalVisible
     );
 
     let updatePasswordSuccess = (
       this.props.updatePasswordSuccessEnabled &&
-      this.props.auth.getIn(["ui", "updatePasswordSuccessModalVisible"])
+      this.props.auth.ui.updatePasswordSuccessModalVisible
     );
 
     let updatePasswordError = (
       this.props.updatePasswordErrorEnabled &&
-      this.props.auth.getIn(["ui", "updatePasswordErrorModalVisible"])
+      this.props.auth.ui.updatePasswordErrorModalVisible
     );
 
     let destroyAccountSuccess = (
       this.props.destroyAccountSuccessEnabled &&
-      this.props.auth.getIn(["ui", "destroyAccountSuccessModalVisible"])
+      this.props.auth.ui.destroyAccountSuccessModalVisible
     );
 
     let destroyAccountError = (
       this.props.destroyAccountErrorEnabled &&
-      this.props.auth.getIn(["ui", "destroyAccountErrorModalVisible"])
+      this.props.auth.ui.destroyAccountErrorModalVisible
     );
 
     let passwordResetSuccess = (
       this.props.passwordResetSuccessEnabled &&
-      this.props.auth.getIn(["ui", "passwordResetSuccessModalVisible"])
+      this.props.auth.ui.passwordResetSuccessModalVisible
     );
 
     //let passwordResetError = (
       //this.props.passwordResetErrorEnabled &&
-      //this.props.auth.getIn(["ui", "passwordResetErrorModalVisible"])
+      //this.props.auth.ui.passwordResetErrorModalVisible
     //);
 
     return (

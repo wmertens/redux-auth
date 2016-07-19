@@ -49,7 +49,7 @@ export function initialize({cookies, isServer, currentLocation, userAgent} = {})
     // https://github.com/rackt/redux-router/pull/62
     // this will result in a bunch of warnings, but it doesn't seem to be a serious problem
     setTimeout(() => {
-      if (!store.getState().auth.getIn(["user", "isSignedIn"])) {
+      if (!store.getState().auth.user.isSignedIn) {
         transition(null, "/login");
       }
       cb();

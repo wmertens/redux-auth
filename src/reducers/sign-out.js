@@ -1,5 +1,3 @@
-import Immutable from "immutable";
-import { createReducer } from "redux-immutablejs";
 import * as A from "../actions/sign-out";
 import { SET_ENDPOINT_KEYS } from "../actions/configure";
 
@@ -8,27 +6,38 @@ const initialState = {
   errors: null
 };
 
-export default createReducer(Immutable.fromJS({}), {
-  [SET_ENDPOINT_KEYS]: (state, {endpoints}) => state.merge(endpoints.reduce((coll, k) => {
-    coll[k] = Immutable.fromJS(initialState);
-    return coll;
-  }, {})),
-
-  [A.SIGN_OUT_START]: (state, {endpoint}) => state.setIn([endpoint, "loading"], true),
-
-  [A.SIGN_OUT_COMPLETE]: (state, {endpoint}) => state.mergeDeep({
-    [endpoint]: {
-      loading: false,
-      errors: null
+export default (state = {}, {type, endpoints, endpoint, errors, key, value}) => {
+  switch (type) {
+    case SET_ENDPOINT_KEYS: {
+      const newState = {...state}
+      Object.keys(endpoints).forEach(k => newState[k] = initialState)
+      return newState
     }
-  }),
 
-  [A.SIGN_OUT_ERROR]: (state, { endpoint, errors }) => {
-    return state.mergeDeep({
+
+    case A.SIGN_OUT_START: return {
+      ...state,
+      [endpoint]: {
+        ...state[endpoint],
+        loading: true
+      }
+    };
+
+    case A.SIGN_OUT_COMPLETE: return {
+      ...state,
+      [endpoint]: {
+        loading: false,
+        errors: null
+      }
+    };
+
+    case A.SIGN_OUT_ERROR: return {
+      ...state,
       [endpoint]: {
         loading: false,
         errors
       }
-    });
+    };
   }
-});
+  return state
+};

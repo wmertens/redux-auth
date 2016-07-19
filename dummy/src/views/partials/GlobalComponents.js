@@ -31,6 +31,6 @@ class GlobalComponents extends React.Component {
 
 export default connect(({demoUi}) => {
   return ({
-    theme: demoUi.get("theme"),
+    theme: demoUi.theme,
   })
 })(GlobalComponents);

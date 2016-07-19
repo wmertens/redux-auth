@@ -128,12 +128,12 @@ export default function () {
                 expect(tokenValidationSpy.called).to.be.ok;
 
                 // ensure config is set to "default"
-                expect(store.getState().auth.getIn(["configure", "currentEndpointKey"])).to.equal("alt");
+                expect(store.getState().auth.configure.currentEndpointKey).to.equal("alt");
                 expect(getCurrentEndpointKey()).to.equal("alt");
 
                 // ensure user exists in store
-                let currentUser = store.getState().auth.get("user");
-                expect(currentUser.get("isSignedIn")).to.equal(true);
+                let currentUser = store.getState().auth.user;
+                expect(currentUser.isSignedIn).to.equal(true);
 
                 done();
               }, 100);
@@ -178,7 +178,7 @@ export default function () {
                 expect(tokenValidationSpy.called).to.be.ok;
 
                 // ensure config is set to "default"
-                expect(store.getState().auth.getIn(["configure", "currentEndpointKey"])).to.equal("default");
+                expect(store.getState().auth.configure.currentEndpointKey).to.equal("default");
                 expect(getCurrentEndpointKey()).to.equal("default");
 
                 // ensure creds were set to response of token validation request
@@ -186,12 +186,12 @@ export default function () {
                 expect(currentCreds["access-token"]).to.equal(successRespHeaders["access-token"]);
 
                 // ensure user exists in store
-                let currentUser = store.getState().auth.get("user");
-                expect(currentUser.get("isSignedIn")).to.equal(true);
-                expect(currentUser.getIn(["attributes", "uid"])).to.equal(testUid);
+                let currentUser = store.getState().auth.user;
+                expect(currentUser.isSignedIn).to.equal(true);
+                expect(currentUser.attributes.uid).to.equal(testUid);
 
                 // ensure success modal is visible
-                expect(store.getState().auth.getIn(["ui", "oAuthSignInSuccessModalVisible"])).to.equal(true);
+                expect(store.getState().auth.ui.oAuthSignInSuccessModalVisible).to.equal(true);
                 done();
               }, 100);
 
@@ -218,12 +218,12 @@ export default function () {
                 expect(popupSpy.called).to.be.ok;
 
                 // ensure user is not signed in
-                let currentUser = store.getState().auth.get("user");
-                expect(currentUser.get("isSignedIn")).to.equal(false);
-                expect(currentUser.get("attributes")).to.equal(null);
+                let currentUser = store.getState().auth.user;
+                expect(currentUser.isSignedIn).to.equal(false);
+                expect(currentUser.attributes).to.equal(null);
 
                 // ensure error message is visible
-                expect(store.getState().auth.getIn(["ui", "oAuthSignInErrorModalVisible"])).to.equal(true);
+                expect(store.getState().auth.ui.oAuthSignInErrorModalVisible).to.equal(true);
                 done();
               }, 100);
 
@@ -259,12 +259,12 @@ export default function () {
                 expect(tokenValidationSpy.called).to.be.ok;
 
                 // ensure user is not signed in
-                let currentUser = store.getState().auth.get("user");
-                expect(currentUser.get("isSignedIn")).to.equal(false);
-                expect(currentUser.get("attributes")).to.equal(null);
+                let currentUser = store.getState().auth.user;
+                expect(currentUser.isSignedIn).to.equal(false);
+                expect(currentUser.attributes).to.equal(null);
 
                 // ensure error message is visible
-                expect(store.getState().auth.getIn(["ui", "oAuthSignInErrorModalVisible"])).to.equal(true);
+                expect(store.getState().auth.ui.oAuthSignInErrorModalVisible).to.equal(true);
 
                 done();
               }, 100);

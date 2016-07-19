@@ -1,13 +1,15 @@
-import Immutable from "immutable";
-import { createReducer } from "redux-immutablejs";
+import { combineReducers } from "redux";
 import * as A from "../actions/demo-ui";
 
-const initialState = Immutable.fromJS({
+const initialState = {
   theme: "materialUi",
   endpoint: "default"
-});
+};
 
-export default createReducer(initialState, {
-  [A.UPDATE_DEMO_THEME]: (state, {theme}) => state.merge({theme}),
-  [A.UPDATE_DEMO_ENDPOINT]: (state, {endpoint}) => state.merge({endpoint})
-});
+export default (state = initialState, {type, theme, endpoint}) => {
+  switch (type) {
+    case A.UPDATE_DEMO_THEME: return {...state, theme};
+    case A.UPDATE_DEMO_ENDPOINT: return {...state, endpoint};
+  }
+  return state;
+};

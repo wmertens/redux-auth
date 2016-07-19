@@ -13,7 +13,7 @@ class EmailSignInSuccessModal extends React.Component {
         containerClass="email-sign-in-success-modal">
         <p>
           You are now signed in
-          as {this.props.auth.getIn(["user", "attributes", "email"])}.
+          as {this.props.auth.user.attributes && this.props.auth.user.attributes.email}.
         </p>
       </Modal>
     );

@@ -1,5 +1,3 @@
-import Immutable from "immutable";
-import { createReducer } from "redux-immutablejs";
 import { getCurrentEndpointKey } from "../utils/session-storage.js"
 import * as authActions from "../actions/authenticate";
 import { EMAIL_SIGN_IN_COMPLETE } from "../actions/email-sign-in";
@@ -9,57 +7,63 @@ import { DESTROY_ACCOUNT_COMPLETE } from "../actions/destroy-account";
 import * as ssActions from "../actions/server";
 import { STORE_CURRENT_ENDPOINT_KEY, SET_ENDPOINT_KEYS } from "../actions/configure";
 
-const initialState = Immutable.fromJS({
+const initialState = {
   attributes: null,
   isSignedIn: false,
   firstTimeLogin: false,
   mustResetPassword: false,
   endpointKey: null
-});
+};
 
-export default createReducer(initialState, {
-  [authActions.AUTHENTICATE_COMPLETE]: (state, { user }) => state.merge({
-    attributes: user,
-    isSignedIn: true,
-    endpointKey: getCurrentEndpointKey()
-  }),
+export default (state = initialState, {type, user, mustResetPassword, firstTimeLogin, currentEndpointKey}) => {
+  switch (type) {
+    case authActions.AUTHENTICATE_COMPLETE: return {
+      ...state,
+      attributes: user,
+      isSignedIn: true,
+      endpointKey: getCurrentEndpointKey()
+    };
 
-  [ssActions.SS_TOKEN_VALIDATION_COMPLETE]: (state, { user, mustResetPassword, firstTimeLogin }) => {
-    return state.merge({
+    case ssActions.SS_TOKEN_VALIDATION_COMPLETE: return {
+      ...state,
       attributes: user,
       isSignedIn: true,
       firstTimeLogin,
       mustResetPassword
-    });
-  },
+    };
 
-  [STORE_CURRENT_ENDPOINT_KEY]: (state, {currentEndpointKey}) => state.set("endpointKey", currentEndpointKey),
-  [SET_ENDPOINT_KEYS]: (state, {currentEndpointKey}) => state.set("endpointKey", currentEndpointKey),
+    case STORE_CURRENT_ENDPOINT_KEY:
+    case SET_ENDPOINT_KEYS:
+      return {...state, endpointKey: currentEndpointKey};
 
-  [EMAIL_SIGN_IN_COMPLETE]: (state, { endpoint, user }) => state.merge({
-    attributes: user.data,
-    isSignedIn: true,
-    endpointKey: endpoint
-  }),
+    case EMAIL_SIGN_IN_COMPLETE: return {
+      ...state,
+      attributes: user.data,
+      isSignedIn: true,
+      endpointKey: endpoint
+    };
 
-  [OAUTH_SIGN_IN_COMPLETE]: (state, { endpoint, user }) => state.merge({
-    attributes: user,
-    isSignedIn: true,
-    endpointKey: endpoint
-  }),
+     case OAUTH_SIGN_IN_COMPLETE: return {
+      ...state,
+      attributes: user,
+      isSignedIn: true,
+      endpointKey: endpoint
+    };
 
-  [ssActions.SS_AUTH_TOKEN_UPDATE]: (state, {user, mustResetPassword, firstTimeLogin}) => {
-    return state.merge({
+    case ssActions.SS_AUTH_TOKEN_UPDATE: return {
+      ...state,
       mustResetPassword,
       firstTimeLogin,
       isSignedIn: !!user,
       attributes: user
-    });
-  },
+    };
 
-  [authActions.AUTHENTICATE_FAILURE]:    state => state.merge(initialState),
-  [ssActions.SS_TOKEN_VALIDATION_ERROR]: state => state.merge(initialState),
-  [SIGN_OUT_COMPLETE]:                   state => state.merge(initialState),
-  [SIGN_OUT_ERROR]:                      state => state.merge(initialState),
-  [DESTROY_ACCOUNT_COMPLETE]:            state => state.merge(initialState)
-});
+    case authActions.AUTHENTICATE_FAILURE:
+    case ssActions.SS_TOKEN_VALIDATION_ERROR:
+    case SIGN_OUT_COMPLETE:
+    case SIGN_OUT_ERROR:
+    case DESTROY_ACCOUNT_COMPLETE:
+      return initialState;
+  }
+  return state;
+};
