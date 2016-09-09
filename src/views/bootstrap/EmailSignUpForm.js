@@ -45,7 +45,9 @@ class EmailSignUpForm extends React.Component {
   render () {
     const {auth: {user, emailSignUp}, inputProps} = this.props
     const formData = emailSignUp[this.getEndpoint()]
-    if (!formData) {return <form/>}
+    if (!formData) {
+      return <form className='redux-auth email-sign-up-form clearfix'/>
+    }
     let disabled = (user.isSignedIn || formData.loading);
 
     return (
