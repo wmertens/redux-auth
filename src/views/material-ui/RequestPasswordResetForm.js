@@ -1,4 +1,5 @@
 import React, { PropTypes } from "react";
+import {get} from 'lodash'
 import Input from "./Input";
 import ButtonLoader from "./ButtonLoader";
 import { connect } from "react-redux";
@@ -44,9 +45,9 @@ class RequestPasswordResetForm extends React.Component {
 
   render () {
     let endpoint       = this.getEndpoint();
-    let loading        = this.props.auth.requestPasswordReset[endpoint].loading;
+    let loading        = get(this.props, 'auth.requestPasswordReset[endpoint].loading');
     let inputDisabled  = this.props.auth.user.isSignedIn;
-    let submitDisabled = !this.props.auth.requestPasswordReset[endpoint].form.email;
+    let submitDisabled = !get(this.props, 'auth.requestPasswordReset[endpoint].form.email');
 
     return (
       <form
@@ -59,8 +60,8 @@ class RequestPasswordResetForm extends React.Component {
           floatingLabelText="Email Address"
           className="request-password-reset-email"
           disabled={loading || inputDisabled}
-          value={this.props.auth.requestPasswordReset[endpoint].form.email}
-          errors={this.props.auth.requestPasswordReset[endpoint].errors.email}
+          value={get(this.props, 'auth.requestPasswordReset[endpoint].form.email')}
+          errors={get(this.props, 'auth.requestPasswordReset[endpoint].errors.email')}
           onChange={this.handleInput.bind(this, "email")}
           {...this.props.inputProps.email} />
 

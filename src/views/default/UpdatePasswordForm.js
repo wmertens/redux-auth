@@ -1,4 +1,5 @@
 import React, { PropTypes } from "react";
+import {get} from 'lodash'
 import Input from "./Input";
 import ButtonLoader from "./ButtonLoader";
 import { updatePassword, updatePasswordFormUpdate } from "../../actions/update-password";
@@ -43,7 +44,7 @@ class UpdatePasswordForm extends React.Component {
 
   render () {
     let endpoint = this.getEndpoint();
-    let loading = this.props.auth.updatePassword.loading;
+    let loading = get(this.props, 'auth.updatePassword.loading');
     let disabled = (
       !this.props.auth.user.isSignedIn || loading ||
       (this.props.auth.user.attributes && this.props.auth.user.attributes.provider !== "email")
@@ -59,8 +60,8 @@ class UpdatePasswordForm extends React.Component {
           placeholder="Password"
           disabled={disabled}
           className="update-password-password"
-          value={this.props.auth.updatePassword[endpoint].form.password}
-          errors={this.props.auth.updatePassword[endpoint].errors.password}
+          value={get(this.props, 'auth.updatePassword[endpoint].form.password')}
+          errors={get(this.props, 'auth.updatePassword[endpoint].errors.password')}
           onChange={this.handleInput.bind(this, "password")}
           {...this.props.inputProps.password} />
 
@@ -70,8 +71,8 @@ class UpdatePasswordForm extends React.Component {
           placeholder="Password Confirmation"
           className="update-password-password-confirmation"
           disabled={disabled}
-          value={this.props.auth.updatePassword[endpoint].form.password_confirmation}
-          errors={this.props.auth.updatePassword[endpoint].errors.password_confirmation}
+          value={get(this.props, 'auth.updatePassword[endpoint].form.password_confirmation')}
+          errors={get(this.props, 'auth.updatePassword[endpoint].errors.password_confirmation')}
           onChange={this.handleInput.bind(this, "password_confirmation")}
           {...this.props.inputProps.passwordConfirmation} />
 

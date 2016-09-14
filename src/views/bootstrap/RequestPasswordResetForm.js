@@ -1,4 +1,5 @@
 import React, { PropTypes } from "react";
+import {get} from 'lodash'
 import Input from "./Input";
 import ButtonLoader from "./ButtonLoader";
 import { Glyphicon } from "react-bootstrap";
@@ -43,9 +44,9 @@ class RequestPasswordResetForm extends React.Component {
   }
 
   render () {
-    let loading = this.props.auth.requestPasswordReset[this.getEndpoint()].loading;
+    let loading = get(this.props, 'auth.requestPasswordReset[this.getEndpoint()].loading');
     let inputDisabled = this.props.auth.user.isSignedIn;
-    let submitDisabled = !this.props.auth.requestPasswordReset[this.getEndpoint()].form.email;
+    let submitDisabled = !get(this.props, 'auth.requestPasswordReset[this.getEndpoint()].form.email');
 
     return (
       <form
@@ -58,8 +59,8 @@ class RequestPasswordResetForm extends React.Component {
           groupClassName="request-password-reset-email"
           placeholder="Email Address"
           disabled={loading || inputDisabled}
-          value={this.props.auth.requestPasswordReset[this.getEndpoint()].form.email}
-          errors={this.props.auth.requestPasswordReset[this.getEndpoint()].errors.email}
+          value={get(this.props, 'auth.requestPasswordReset[this.getEndpoint()].form.email')}
+          errors={get(this.props, 'auth.requestPasswordReset[this.getEndpoint()].errors.email')}
           onChange={this.handleInput.bind(this, "email")}
           {...this.props.inputProps.email} />
 

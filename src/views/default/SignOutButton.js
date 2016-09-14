@@ -1,4 +1,5 @@
 import React, { PropTypes } from "react";
+import {get} from 'lodash'
 import ButtonLoader from "./ButtonLoader";
 import { connect } from "react-redux";
 import { signOut } from "../../actions/sign-out";
@@ -34,7 +35,7 @@ class SignOutButton extends React.Component {
     let disabled = !this.props.auth.user.isSignedIn;
     return (
       <ButtonLoader
-        loading={this.props.auth.signOut[this.getEndpoint()].loading}
+        loading={get(this.props, 'auth.signOut[this.getEndpoint()].loading')}
         icon={this.props.icon}
         disabled={disabled}
         primary={true}

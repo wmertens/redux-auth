@@ -1,5 +1,6 @@
 import React, { PropTypes } from "react";
 import {Glyphicon} from "react-bootstrap";
+import {get} from 'lodash';
 import {ButtonLoader} from "../../../../src/views/bootstrap";
 import {connect} from "react-redux";
 import {requestTest} from "../../actions/request-test-buttons";
@@ -22,10 +23,11 @@ class RequestTestButton extends React.Component {
 
   render () {
     const {path, signedIn, currentEndpointKey, endpointKey} = this.props
+
     let text    = "Will Fail",
         bsStyle = "danger",
         glyph   = <Glyphicon glyph="remove" />,
-        loading = this.props.demoButtons.buttons[path].loading;
+        loading = get(this.props, 'demoButtons.buttons[path].loading');
 
     if (
       signedIn && (

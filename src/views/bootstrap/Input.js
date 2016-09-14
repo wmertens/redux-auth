@@ -1,5 +1,6 @@
 import React, { PropTypes } from "react";
 import { Input, Glyphicon } from "react-bootstrap";
+import {get} from 'lodash'
 
 class AuthInput extends React.Component {
   static propTypes = {
@@ -50,7 +51,7 @@ class AuthInput extends React.Component {
     return (
       <div>
         <Input {...this.props}
-               bsStyle={(errors.size) ? "error" : null}
+               bsStyle={get(this.props, 'errors.size') ? "error" : null}
                onChange={this.handleInput.bind(this)} />
         {this.renderErrorList()}
       </div>

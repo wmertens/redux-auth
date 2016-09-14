@@ -1,3 +1,4 @@
+import {get} from 'lodash'
 import * as A from "../actions/email-sign-in";
 import { SET_ENDPOINT_KEYS } from "../actions/configure";
 
@@ -22,7 +23,7 @@ export default (state = {}, {type, endpoints, endpoint, key, value}) => {
         loading: true
       }
     };
-      
+
 
     case A.EMAIL_SIGN_IN_COMPLETE: return {...state, [endpoint]: initialState};
 
@@ -39,7 +40,7 @@ export default (state = {}, {type, endpoints, endpoint, key, value}) => {
       [endpoint]: {
         ...state[endpoint],
         form: {
-          ...state[endpoint].form,
+          ...get(state[endpoint], 'form'),
           [key]: value
         }
       }

@@ -18,7 +18,7 @@ class AuthInput extends React.Component {
   }
 
   renderErrorList () {
-    const {errors, label, ...rest} = this.props
+    const {errors, label} = this.props
     if (errors.length) {
       return (
         <div className='auth-error-message'>
@@ -43,6 +43,7 @@ class AuthInput extends React.Component {
   }
 
   render () {
+    const {label, ...rest} = this.props
     return (
       <div>
         <label>{label}</label>

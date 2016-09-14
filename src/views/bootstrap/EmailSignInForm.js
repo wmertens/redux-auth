@@ -1,4 +1,5 @@
 import React, {PropTypes} from "react";
+import {get} from 'lodash'
 import ButtonLoader from "./ButtonLoader";
 import Input from "./Input";
 import { emailSignInFormUpdate, emailSignIn } from "../../actions/email-sign-in";
@@ -48,7 +49,7 @@ class EmailSignInForm extends React.Component {
   render () {
     let disabled = (
       this.props.auth.user.isSignedIn ||
-      this.props.auth.emailSignIn[this.getEndpoint()].loading
+      get(this.props, 'auth.emailSignIn[this.getEndpoint()].loading')
     );
 
     return (
@@ -59,8 +60,8 @@ class EmailSignInForm extends React.Component {
                label="Email"
                placeholder="Email"
                disabled={disabled}
-               value={this.props.auth.emailSignIn[this.getEndpoint()].form.email}
-               errors={this.props.auth.emailSignIn[this.getEndpoint()].errors.email}
+               value={get(this.props, 'auth.emailSignIn[this.getEndpoint()].form.email')}
+               errors={get(this.props,'auth.emailSignIn[this.getEndpoint()].errors.email')}
                onChange={this.handleInput.bind(this, "email")}
                {...this.props.inputProps.email} />
 
@@ -69,12 +70,12 @@ class EmailSignInForm extends React.Component {
                groupClassName="email-sign-in-password"
                placeholder="Password"
                disabled={disabled}
-               value={this.props.auth.emailSignIn[this.getEndpoint()].form.password}
-               errors={this.props.auth.emailSignIn[this.getEndpoint()].errors.password}
+               value={get(this.props, 'auth.emailSignIn[this.getEndpoint()].form.password')}
+               errors={get(this.props, 'auth.emailSignIn[this.getEndpoint()].errors.password')}
                onChange={this.handleInput.bind(this, "password")}
                {...this.props.inputProps.password} />
 
-        <ButtonLoader loading={this.props.auth.emailSignIn[this.getEndpoint()].loading}
+        <ButtonLoader loading={get(this.props, 'auth.emailSignIn[this.getEndpoint()].loading')}
                       type="submit"
                       icon={<Glyphicon glyph="log-in" />}
                       className='email-sign-in-submit pull-right'
