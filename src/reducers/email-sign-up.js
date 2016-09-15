@@ -1,4 +1,4 @@
-
+import {get} from 'lodash'
 import * as A from "../actions/email-sign-up";
 import { SET_ENDPOINT_KEYS } from "../actions/configure";
 
@@ -43,7 +43,7 @@ export default (state = {}, {type, endpoints, endpoint, errors, key, value}) => 
       [endpoint]: {
         ...state[endpoint],
         form: {
-          ...state[endpoint].form,
+          ...get(state[endpoint], 'form'),
           [key]: value
         }
       }

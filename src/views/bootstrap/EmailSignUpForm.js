@@ -1,4 +1,5 @@
 import React, { PropTypes } from "react";
+import {get} from 'lodash'
 import Input from "./Input";
 import ButtonLoader from "./ButtonLoader";
 import { emailSignUpFormUpdate, emailSignUp } from "../../actions/email-sign-up";
@@ -40,19 +41,17 @@ class EmailSignUpForm extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault();
-    let formData = this.props.auth.emailSignUp[this.getEndpoint()].form;
+    let formData = get(this.props, 'auth.emailSignUp[this.getEndpoint()].form');
     this.props.dispatch(emailSignUp(formData, this.getEndpoint()))
       .then(this.props.next)
       .catch(() => {});
   }
 
   render () {
-    const {auth: {user, emailSignUp}, inputProps} = this.props
-    const formData = emailSignUp[this.getEndpoint()]
-    if (!formData) {
-      return <form className='redux-auth email-sign-up-form clearfix'/>
-    }
-    let disabled = (user.isSignedIn || formData.loading);
+    let disabled = (
+      this.props.auth.user.signedIn ||
+      get(this.props, 'auth.emailSignUp[this.getEndpoint()].loading')
+    )
 
     return (
       <form className='redux-auth email-sign-up-form clearfix'
@@ -62,39 +61,39 @@ class EmailSignUpForm extends React.Component {
                placeholder="Email"
                groupClassName="email-sign-up-email"
                disabled={disabled}
-               value={formData.form.email}
-               errors={formData.errors.email}
+               value={get(this.props, 'auth.emailSignUp[this.getEndpoint()].form.email')}
+               errors={get(this.props, 'auth.emailSignUp[this.getEndpoint()].errors.email')}
                onChange={this.handleInput.bind(this, "email")}
-               {...inputProps.email} />
+               {...this.props.inputProps.email} />
 
         <Input type="password"
                label="Password"
                placeholder="Password"
                groupClassName="email-sign-up-password"
                disabled={disabled}
-               value={formData.form.password}
-               errors={formData.errors.password}
+               value={get(this.props, 'auth.emailSignUp[this.getEndpoint()].form.password')}
+               errors={get(this.props, 'auth.emailSignUp[this.getEndpoint()].errors.password')}
                onChange={this.handleInput.bind(this, "password")}
-               {...inputProps.password} />
+               {...this.props.inputProps.password} />
 
         <Input type="password"
                label="Password Confirmation"
                placeholder="Password Confirmation"
                groupClassName="email-sign-up-password-confirmation"
                disabled={disabled}
-               value={formData.form.password_confirmation}
-               errors={formData.errors.password_confirmation}
+               value={get(this.props, 'auth.emailSignUp[this.getEndpoint()].form.password_confirmation')}
+               errors={get(this.props, 'auth.emailSignUp[this.getEndpoint()].errors.password_confirmation')}
                onChange={this.handleInput.bind(this, "password_confirmation")}
-               {...inputProps.passwordConfirmation} />
+               {...this.props.inputProps.passwordConfirmation} />
 
 
-        <ButtonLoader loading={formData.loading}
+        <ButtonLoader loading={get(this.props, 'auth.emailSignUp[this.getEndpoint()].loading')}
                       type="submit"
                       className="email-sign-up-submit pull-right"
                       icon={<Glyphicon glyph="send" />}
                       disabled={disabled}
                       onClick={this.handleSubmit.bind(this)}
-                      {...inputProps.submit}>
+                      {...this.props.inputProps.submit}>
           Sign Up
         </ButtonLoader>
       </form>
